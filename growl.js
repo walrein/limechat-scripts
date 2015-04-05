@@ -1,15 +1,4 @@
-﻿/**
-	@file	growl.js
-	@brief	growl通知スクリプト LimeChat2 用
-	@author	ukah & ro-soku & listener
-	@since 2010-02-05
-	
-	改変、配布自由。悪用厳禁。
-**/
-
-/*_/_/_/_/_/_/_/_/_/_/_/設定項目_/_/_/_/_/_/_/_/_/_/_/_/*/
-
-
+﻿
 /**
 表示したい画像のファイルパスを""の間に入れてください
 \を\\と表記させることを忘れずに！
@@ -62,7 +51,7 @@ function addGrowlTask(title, text) {
 	var types = ' /r:"General Notification"';
 	var type = ' /n:"General Notification"';
 	var message = ' "'+text.replace("\""," ")+'"';
-	
+
 	oShell.Run(sGrowlCmd+title+icon+app+appicon+types+type+message, 0, false);
 }
 
@@ -71,10 +60,10 @@ function findGrowl() {
 	var e    = new Enumerator(proc);
 	for(; !e.atEnd(); e.moveNext()) {
 		var item = e.item();
-		
+
 		var path = item.ExecutablePath.replace("\\Growl.exe", "");
 		sGrowlCmd = "\"" + path + "\\growlnotify.exe\"";
-		
+
 		log("Glowl for Windows検出:" + path);
 	}
 }
@@ -97,14 +86,14 @@ function event::onChannelText (prefix, channel, text) {
 	msg = msg.replace("%c", channel);
 	msg = msg.replace("%u", prefix.nick);
 	msg = msg.replace("%t", text);
-	
+
 	addGrowlTask (title, msg);
 }
 //ロード時
 function event::onLoad () {
 	oShell = new ActiveXObject("Wscript.Shell");
 	oWmi   = GetObject("winmgmts:\\\\.\\root\\cimv2");
-	
+
 	if(ImagePath == ""){
 		ImagePath = userScriptFilePath +'\\limechat.png';
 	}
@@ -114,7 +103,7 @@ function event::onLoad () {
 function event::onUnLoad() {
 	oShell = null;
 	oWmi   = null;
-	
+
 	//addTalkTask("ライムチャットとの連携を終了しました");
 }
 /*
